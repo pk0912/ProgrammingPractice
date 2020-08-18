@@ -93,6 +93,24 @@ class LinkedList:
             prev_node = node
         raise Exception(f"Linked list does not have {element}")
 
+    def remove_at_position(self, index):
+        if self.is_empty():
+            raise Exception("Linked list is empty")
+        if index < 0:
+            raise Exception("Position must be positive")
+        if index >= len(self):
+            raise Exception("Position must not be greater than length of list")
+        if index == 0:
+            self.head = self.head.next
+        else:
+            prev_node = self.head
+            for node in self:
+                if index == 0:
+                    prev_node.next = node.next
+                    return
+                index -= 1
+                prev_node = node
+
     @staticmethod
     def __find_mid__(head):
         first = head
