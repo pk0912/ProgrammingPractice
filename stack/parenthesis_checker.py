@@ -7,12 +7,14 @@ for _ in range(T):
 for expr in A:
     stack = deque()
     print_flag = False
+    traversed_length = 0
     for c in expr:
         if c in ['(', '{', '[']:
             stack.appendleft(c)
         else:
             if not stack:
                 print("not balanced")
+                print_flag = True
                 break
             else:
                 popped_char = stack.popleft()
@@ -31,8 +33,10 @@ for expr in A:
                         print("not balanced")
                         print_flag = True
                         break
+        traversed_length += 1
     if len(stack) > 0:
         if not print_flag:
             print("not balanced")
     else:
-        print("balanced")
+        if traversed_length == len(expr):
+            print("balanced")
