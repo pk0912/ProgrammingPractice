@@ -75,6 +75,30 @@ def insert(node, val):
     return root
 
 
+def lvl_order_traversal(root):
+    final_output = []
+    lvl_output = []
+    queue = deque([root, "$"])
+    while len(queue) > 0:
+        first_in_queue = queue.popleft()
+        if first_in_queue != "$":
+            lvl_output.append(first_in_queue.data)
+            if first_in_queue.left:
+                queue.append(first_in_queue.left)
+            if first_in_queue.right:
+                queue.append(first_in_queue.right)
+        else:
+            if len(queue) == 0:
+                break
+            else:
+                queue.append("$")
+                final_output.append(lvl_output)
+                lvl_output = []
+    if len(lvl_output) != 0:
+        final_output.append(lvl_output)
+    return final_output
+
+
 if __name__ == '__main__':
     root = Node(1)
     root.left = Node(2)
@@ -84,6 +108,8 @@ if __name__ == '__main__':
     root.right.left = Node(6)
     root.right.right = Node(7)
     # root = None
+    print("Level Order Traversal : ", end="")
+    print(lvl_order_traversal(root))
     print("Inorder using recursion : ", end="")
     inorder(root)
     print()
