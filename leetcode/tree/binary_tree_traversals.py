@@ -3,7 +3,7 @@ TODO: Learn about Morris Traversal for inorder,preorder,postorder traversal with
 """
 
 
-from collections import deque
+from collections import deque, defaultdict
 from typing import Optional, List
 
 
@@ -148,6 +148,64 @@ class Solution:
                         lvl_traversal = []
         return output
 
+    def levelOrderWithRecursion(self, root: Optional[TreeNode]) -> List[List[int]]:
+        output_dict = defaultdict(list)
+
+        def helper(node, key):
+            if node:
+                output_dict[key].append(node.val)
+                helper(node.left, key + 1)
+                helper(node.right, key + 1)
+
+        helper(root, 0)
+
+        return [output_dict[k] for k in sorted(output_dict.keys())]
+
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        output = []
+        lvl_traversal = []
+        switch = False
+        if root:
+            queue = deque([root, "$"])
+            while len(queue) > 0:
+                popped_ele = queue.popleft()
+                if popped_ele != "$":
+                    if popped_ele.left:
+                        queue.append(popped_ele.left)
+                    if popped_ele.right:
+                        queue.append(popped_ele.right)
+                    lvl_traversal.append(popped_ele.val)
+                else:
+                    if len(lvl_traversal) > 0:
+                        queue.append("$")
+                        if switch:
+                            lvl_traversal.reverse()
+                        output.append(lvl_traversal)
+                        lvl_traversal = []
+                        switch = not switch
+        return output
+
+    def levelOrderBottom(self, root: Optional[TreeNode]) -> List[List[int]]:
+        output = []
+        lvl_traversal = []
+        if root:
+            queue = deque([root, "$"])
+            while len(queue) > 0:
+                popped_ele = queue.popleft()
+                if popped_ele != "$":
+                    if popped_ele.left:
+                        queue.append(popped_ele.left)
+                    if popped_ele.right:
+                        queue.append(popped_ele.right)
+                    lvl_traversal.append(popped_ele.val)
+                else:
+                    if len(lvl_traversal) > 0:
+                        queue.append("$")
+                        output.append(lvl_traversal)
+                        lvl_traversal = []
+        output.reverse()
+        return output
+
 
 if __name__ == '__main__':
     root_node = TreeNode(1)
@@ -159,6 +217,9 @@ if __name__ == '__main__':
     root_node.right.right = TreeNode(7)
     sol = Solution()
     print(sol.levelOrder(root_node))
+    print(sol.levelOrderWithRecursion(root_node))
+    print(sol.zigzagLevelOrder(root_node))
+    print(sol.levelOrderBottom(root_node))
     print(sol.inorderTraversal(root_node))
     print(sol.inorderTraversalWithoutRecursion(root_node))
     print(sol.preorderTraversal(root_node))
