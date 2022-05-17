@@ -9,8 +9,7 @@ class Solution:
             if node1 and node2:
                 if node1.val == node2.val:
                     return inorder(node1.left, node2.right) and inorder(node1.right, node2.left)
-                else:
-                    return False
+                return False
             elif node1 or node2:
                 return False
             else:
