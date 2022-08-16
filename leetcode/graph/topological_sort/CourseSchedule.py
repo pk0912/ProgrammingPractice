@@ -1,3 +1,9 @@
+"""
+Cycle Detection in Directed Graph using BFS can be done by using Kahn's Algo
+If it is Directed Acyclic Graph (DAG), using BFS topological sort could be done as well
+"""
+
+
 from collections import defaultdict, deque
 from typing import List
 
