@@ -206,23 +206,47 @@ class Solution:
         output.reverse()
         return output
 
+    def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
+        vertical_lvl_dict = defaultdict(list)
+
+        def helper(node, col, row):
+            if node:
+                vertical_lvl_dict[col].append((row, node.val))
+                helper(node.left, col - 1, row + 1)
+                helper(node.right, col + 1, row + 1)
+
+        helper(root, 0, 0)
+        intermediate_op = [sorted(vertical_lvl_dict[k]) for k in sorted(vertical_lvl_dict.keys())]
+        output = []
+        for i in intermediate_op:
+            local_list = []
+            for j in i:
+                local_list.append(j[1])
+            output.append(local_list)
+        return output
+
 
 if __name__ == '__main__':
     root_node = TreeNode(1)
     root_node.left = TreeNode(2)
     root_node.right = TreeNode(3)
     root_node.left.left = TreeNode(4)
-    root_node.left.right = TreeNode(5)
-    root_node.right.left = TreeNode(6)
+    root_node.left.right = TreeNode(6)
+    root_node.right.left = TreeNode(5)
     root_node.right.right = TreeNode(7)
     sol = Solution()
-    print(sol.levelOrder(root_node))
-    print(sol.levelOrderWithRecursion(root_node))
-    print(sol.zigzagLevelOrder(root_node))
-    print(sol.levelOrderBottom(root_node))
-    print(sol.inorderTraversal(root_node))
+    # print(sol.levelOrder(root_node))
+    # print(sol.levelOrderWithRecursion(root_node))
+    # print(sol.zigzagLevelOrder(root_node))
+    # print(sol.levelOrderBottom(root_node))
+    # print(sol.inorderTraversal(root_node))
     print(sol.inorderTraversalWithoutRecursion(root_node))
-    print(sol.preorderTraversal(root_node))
-    print(sol.preorderTraversalWithoutRecursion(root_node))
-    print(sol.postorderTraversal(root_node))
-    print(sol.postorderTraversalWithoutRecursion(root_node))
+    # print(sol.preorderTraversal(root_node))
+    # print(sol.preorderTraversalWithoutRecursion(root_node))
+    # print(sol.postorderTraversal(root_node))
+    # print(sol.postorderTraversalWithoutRecursion(root_node))
+    print(sol.verticalTraversal(root_node))
+
+"""
+[[4], [2], [1, 5, 6], [3], [7]]
+"""
